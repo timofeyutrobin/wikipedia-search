@@ -3,6 +3,7 @@
 Данное приложение позволяет искать текстовую информацию в русскоязычной [Википедии](https://ru.wikipedia.org).
 
 ## [Ссылка на приложение](https://wikipedia-search-naumen-2019.herokuapp.com/)
+## [Ссылка на исходный код](https://github.com/timofeyutrobin/wikipedia-search/)
 
 ## Возможности
 
