@@ -1,44 +1,101 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Wikipedia Search
 
-## Available Scripts
+Данное приложение позволяет искать текстовую информацию в русскоязычной [Википедии](https://ru.wikipedia.org).
 
-In the project directory, you can run:
+## Возможности
 
-### `npm start`
+Для того, чтобы найти статьи, содержащие интересующую вас информацию, просто введите поисковый запрос в поле поиска и нажмите кнопку **Найти**.
+Вы так же можете нажать на клавишу **Enter** для осуществления поиска
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Настройки
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Вы можете изменить настройки поиска, например:
 
-### `npm test`
+#### Количество статей
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+С помощью этого ползунка можно задать количество статей, которое будет отображаться на странице, вы можете выбирать в диапазоне от 5 до 20 статей.
 
-### `npm run build`
+#### Сортировать по
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Вы можете выбрать, в каком порядке хотите видеть результаты поиска:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- Релевантности
+- Дате последнего обновления
+  - :grey_exclamation: Обратите внимание, что поиск осуществится заново.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Результаты поиска
 
-### `npm run eject`
+Каждый результат поиска состоит из заголовка и первых 4х предложений из текста оригинальной статьи.
+По нажатию на заголовок, соответствующая статья откроется в новом окне.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Также внизу у каждого результата можно увидеть дополнительную информацию:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Длина
+- Дата последнего изменения
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Архитектура приложения
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Приложение было написано на React + typescript с использованием `create-react-app` для автоматической конфигурации.
 
-## Learn More
+Приложение было размещено на heroku по адресу https://wikipedia-search-naumen-2019.herokuapp.com/
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Сборка и запуск
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Для начала склонируйте репозиторий и введите команду `npm install` для установки необходимых зависимостей
+
+Для запуска приложения в режиме разработки введите в командной строке `npm run start`
+
+Для создания оптимизированной сборки используйте команду `npm run build`
+
+### Компоненты
+
+Рассмотрим некоторые компоненты приложения
+
+#### `App`
+
+В компоненте `App` содержится все состояние приложения:
+
+- Текст поиска
+- Количество загружаемых статей
+- Порядок сортировки
+
+Эти параметры используются для создания запроса к Wikipedia API.
+По нажатию на кнопку происходит запрос с текущими параметрами.
+
+В случае возниковения ошибки во время запроса, например, отсутствия ответа или отсутствия результатов для введенного запроса, приложение отобразит эту ошибку с соответствующим текстом.
+
+Во время запроса приложение отображает анимацию загрузки.
+
+Состояние приложения меняется с помощью обработчиков событий в самом компоненте `App`.
+Обработчики передаются дочерним компонентам через `props`.
+
+#### `SearchForm`
+
+Данный компонент отображает `<input>` для ввода текста поиска и `<button>` для вызова самого поиска.
+
+#### `Articles`
+
+Отображает список найденных статей, в качестве атрибута `key` каждая статья принимает `pageid` из результатов запроса.
+
+#### `Settings`
+
+Отображает настройки поиска.
+
+- Количество статей управляется с помощью `<input type=range>`
+- Порядок сортировки управляется с помощью `<select>`
+
+### Плюсы архитектуры
+
+- Проста в реализации
+- Использование create-react-app избавляет от конфигурации
+- Легко деплоить
+
+### Минусы архитектуры
+
+- Большой размер главного компонента
+- Необходимость передавать props вглубь при добавлений новых дочерних компонентов
+- Компонент `Settings` можно разбить на подкомпоненты, но я не стал этого делать из-за пункта 2
+
+При добавлении новых функций размер компонента `App` будет увеличиваться, управлять состоянием будет все сложнее и сложнее.
+Решить эту проблему можно с помощью библиотек для управления состоянием, например Redux. Также проблема решается с помощью React Context.
+
