@@ -1,0 +1,14 @@
+{
+    "extends": "xo",
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "object-curly-spacing": "off",
+        "space-before-function-paren":"off",
+        "new-cap": 0,
+        "@typescript-eslint/no-unused-vars": [2],
+        "indent": [2, 4, {"SwitchCase": 1}],
+        "no-undef": 0,
+        "no-unused-vars": 0
+    }
+}

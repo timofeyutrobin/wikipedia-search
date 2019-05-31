@@ -1,0 +1,25 @@
+.article {
+  padding-bottom: 40px;
+  border-bottom: 1px solid #999;
+  overflow: hidden;
+}
+
+.articles__article {
+  margin: 32px 32px 40px;
+}
+
+.article__header {
+  font-weight: normal;
+}
+
+.article__description {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.article__info {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #999;
+}
